@@ -22,7 +22,7 @@ import javax.swing.JPanel;
  */
 public class PanelProfile extends JFrame{
     public PanelProfile(){
-        this.setTitle("Main Menu Customer");
+        this.setTitle("Panel Profile");
 
         JFrame frame = this;
         JPanel panel = new JPanel();
@@ -31,11 +31,24 @@ public class PanelProfile extends JFrame{
         
         Customer cs = (Customer)SingletonUserManager.getInstance().getUser();
         //Text
-        JLabel selamatdatang = new JLabel("ININAMA : cs.getUsername()");
+        JLabel selamatdatang = new JLabel(cs.getUsername());
         selamatdatang.setFont(new Font("Arial", Font.BOLD, 20));
         selamatdatang.setForeground(Color.white);
         selamatdatang.setBounds(20, 30, 350, 70);
         panel.add(selamatdatang);
+        
+        JButton back = new JButton("Back");
+        back.setFont(new Font("Arial", Font.BOLD, 11));
+        back.setBounds(350, 30, 70, 70);
+        panel.add(back);
+        back.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent ae) {
+                frame.setVisible(false);
+                new MainMenuCustomer();
+            }            
+        });
+        
         
         //Edit alamat tersimpan
         JButton editAlamat = new JButton("Alamat Tersimpan");
@@ -46,7 +59,7 @@ public class PanelProfile extends JFrame{
             @Override
             public void actionPerformed(ActionEvent e){
                 frame.setVisible(false);
-                
+                new EditAlamat();
             }
         });
         panel.add(editAlamat);
@@ -104,7 +117,7 @@ public class PanelProfile extends JFrame{
         this.setLocationRelativeTo(null);
         this.setVisible(true);
     }
-    public static void main(String[] args) {
-        new PanelProfile();
-    }
+//    public static void main(String[] args) {
+//        new PanelProfile();
+//    }
 }

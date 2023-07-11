@@ -28,6 +28,21 @@ public class Customer extends User implements InterfaceUserFunction {
         this.member = member;
         this.saldo = saldo;
     }
+    //untuk register
+    public Customer(String username, String password, String email, String address, EnumMember enumMember, String noHp, int saldo) {
+        super(username, password, email);
+        this.address= address;
+        this.member = enumMember;
+        this.noHp = noHp; 
+        this.saldo = saldo;
+    }
+
+    public Customer(String text, String text0, String text1, String text2, String text3) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    //untuk update
+    
 
     public int getId() {
         return id;
