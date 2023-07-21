@@ -118,7 +118,13 @@ public class MenuOrder extends JFrame implements ActionListener {
         pay.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent ae) {
-                proceedToPayment();
+                if (!customerItems.isEmpty()) {
+                    frame.dispose();
+                    new Pembayaran(customerItems);
+                    //proceedToPayment();
+                }else{
+                    JOptionPane.showMessageDialog(null, "Insert item first!", "MenuOrder", JOptionPane.ERROR_MESSAGE);
+                }
             }
         });
 
@@ -174,9 +180,9 @@ public class MenuOrder extends JFrame implements ActionListener {
         if (customerItems.isEmpty()) {
             JOptionPane.showMessageDialog(frame, "Your cart is empty. Add items to the cart before proceeding to payment.");
         } else {
-           
+
             JOptionPane.showMessageDialog(frame, "Payment successful. Thank you for your purchase!");
-            customerItems.clear(); 
+            customerItems.clear();
         }
     }
 
@@ -188,4 +194,3 @@ public class MenuOrder extends JFrame implements ActionListener {
         new MenuOrder(1);
     }
 }
-

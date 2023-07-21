@@ -70,7 +70,7 @@ public class JoinMembershipCustomer extends JFrame implements ActionListener {
         //Tagline
         JLabel benefitMember = new JLabel("<html><b>Benefits Member<hr><br>"
                 + "+ Lifetime member <br>"
-                + "+ Discount member up to 10% <br>"
+                + "+ Discount member up to 40% <br>"
                 + "+ Free Coffee at 2AM <br>"
                 + "+ Free vouchers <br>"
                 + "+ And more. <br><br>"

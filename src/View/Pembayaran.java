@@ -14,6 +14,7 @@ import Controller.VoucherFunction;
 import static Controller.StoreFunction.getVoucher;
 import static Controller.VoucherFunction.getVoucherByID;
 import Model.Customer;
+import Model.EnumMember;
 import Model.Item;
 import Model.SingletonUserManager;
 import Model.Transaction;
@@ -30,6 +31,7 @@ import java.awt.event.WindowEvent;
 import java.util.ArrayList;
 import javax.swing.ButtonGroup;
 import javax.swing.JButton;
+import javax.swing.JDialog;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
@@ -56,12 +58,13 @@ public class Pembayaran extends JFrame implements ActionListener, MouseListener 
     JButton cbVoucher;
     int totalBayar;
     int totalPrice;
+    int discount;
     //
-    ArrayList<Item> items = new ArrayList();
+    ArrayList<Item> customerItems = new ArrayList();
 
-    public Pembayaran() {
+    public Pembayaran(ArrayList<Item> custItems) {
 
-        items = StoreFunction.getItem();
+        this.customerItems = custItems;
         voucher.setDiscount(0);
         qty = new ArrayList();
 
@@ -91,7 +94,7 @@ public class Pembayaran extends JFrame implements ActionListener, MouseListener 
         SingletonUserManager.getInstance().setUser(getCustomer("micel@gmail.com"));
         cs = (Customer) SingletonUserManager.getInstance().getUser();
 
-        //Title
+        //Titlew
         JLabel membersip = new JLabel("<html><b>Payment<hr></html>");
         membersip.setFont(new Font("Arial", Font.BOLD, 25));
         membersip.setForeground(Color.white);
@@ -107,7 +110,7 @@ public class Pembayaran extends JFrame implements ActionListener, MouseListener 
             @Override
             public void actionPerformed(ActionEvent ae) {
                 frame.setVisible(false);
-                new PanelProfile();
+                new PilihStorePage();
             }
         });
 
@@ -119,8 +122,8 @@ public class Pembayaran extends JFrame implements ActionListener, MouseListener 
 
         int spaceAntarText = 210;
         totalPrice = 0;
-        for (int i = 0; i < 3; i++) {
-            JLabel nameLabel = new JLabel("<html>" + (i + 1) + ".&ensp; " + items.get(i).getName());
+        for (int i = 0; i < customerItems.size(); i++) {
+            JLabel nameLabel = new JLabel("<html>" + (i + 1) + ".&ensp; " + this.customerItems.get(i).getName());
             nameLabel.setFont(new Font("Arial", Font.BOLD, 18));
             nameLabel.setBounds(50, spaceAntarText, 220, 25);
             nameLabel.setForeground(Color.white);
@@ -132,19 +135,19 @@ public class Pembayaran extends JFrame implements ActionListener, MouseListener 
             quantity.setForeground(Color.white);
             panel.add(quantity);
 
-            JLabel pricePerItem = new JLabel(String.valueOf(items.get(i).getPrice()));
+            JLabel pricePerItem = new JLabel(String.valueOf(this.customerItems.get(i).getPrice()));
             pricePerItem.setFont(new Font("Arial", Font.BOLD, 18));
             pricePerItem.setBounds(360, spaceAntarText, 150, 25);
             pricePerItem.setForeground(Color.white);
             panel.add(pricePerItem);
 
-            JLabel priceLabel = new JLabel("<html>:&emsp;&emsp;&emsp;" + String.valueOf(items.get(i).getPrice() * qty.get(i)) + "<html>");
+            JLabel priceLabel = new JLabel("<html>:&emsp;&emsp;&emsp;" + String.valueOf(this.customerItems.get(i).getPrice() * qty.get(i)) + "<html>");
             priceLabel.setFont(new Font("Arial", Font.BOLD, 18));
             priceLabel.setBounds(435, spaceAntarText, 150, 25);
             priceLabel.setForeground(Color.white);
             panel.add(priceLabel);
             //
-            totalPrice += items.get(i).getPrice() * qty.get(i);
+            totalPrice += this.customerItems.get(i).getPrice() * qty.get(i);
             //       
             spaceAntarText += 50;
         }
@@ -155,12 +158,36 @@ public class Pembayaran extends JFrame implements ActionListener, MouseListener 
         garisBawah.setBounds(42, spaceAntarText - 20, 600, 50);
         panel.add(garisBawah);
 
+        //Bonus Member
+        discount = 0;
+        String disk;
+        if (cs.getMember() == EnumMember.ISMEMBER) {
+            if (totalPrice < 50000) {
+                disk = "10%";
+                discount = totalPrice - (totalPrice * 10 / 100);
+                System.out.println(discount);
+            } else if (totalPrice < 150000) {
+                disk = "25%";
+                discount = totalPrice - (totalPrice * 25 / 100);
+            } else {
+                disk = "40%";
+                discount = totalPrice - (totalPrice * 40 / 100);
+            }
+
+            JLabel lmember = new JLabel("Bonus member " + disk + " : " + (totalPrice - discount));
+            lmember.setFont(new Font("Arial", Font.BOLD, 20));
+            lmember.setBounds(50, spaceAntarText + 24, 300, 25);
+            lmember.setForeground(Color.white);
+            panel.add(lmember);
+        }
+
         //LabelVoucher
         JLabel lVoucher = new JLabel("Voucher : ");
         lVoucher.setFont(new Font("Arial", Font.BOLD, 20));
         lVoucher.setBounds(50, spaceAntarText + 80, 150, 25);
         lVoucher.setForeground(Color.white);
         panel.add(lVoucher);
+
         //Voucher
         JLabel textVoucher = new JLabel();
         JLabel totalPriceLabel = new JLabel(String.valueOf(totalPrice));
@@ -206,12 +233,12 @@ public class Pembayaran extends JFrame implements ActionListener, MouseListener 
         garisBawah2.setBounds(42, spaceAntarText + 100, 600, 50);
         panel.add(garisBawah2);
 
-        textTotal = new JLabel("Total   :        " + (int) (totalPrice - voucher.getDiscount()));
+        textTotal = new JLabel("Total   :        " + (int) (totalPrice - voucher.getDiscount() - (totalPrice - discount)));
         textTotal.setFont(new Font("Arial", Font.BOLD, 20));
         textTotal.setForeground(Color.white);
         textTotal.setBounds(365, spaceAntarText + 130, 600, 50);
         panel.add(textTotal);
-        totalBayar = (int) (totalPrice - voucher.getDiscount());
+        totalBayar = (int) (totalPrice - voucher.getDiscount() - (totalPrice - discount));
 
         butPickup = new JRadioButton("Pickup");
         butPickup.setBounds(100, spaceAntarText + 130, 100, 50);
@@ -259,10 +286,12 @@ public class Pembayaran extends JFrame implements ActionListener, MouseListener 
         //this.setLayout(null);
         this.setLocationRelativeTo(null);
         this.setVisible(true);
+        this.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
     }
 
     public static void main(String[] args) {
-        new Pembayaran();
+        ArrayList<Item> item = new ArrayList();
+        new Pembayaran(item);
     }
 
     @Override
@@ -278,7 +307,7 @@ public class Pembayaran extends JFrame implements ActionListener, MouseListener 
                         cs.setSaldo(cs.getSaldo() - totalBayar);
                         //looping sebanyak berapa pesanan yang dibuat, keknya kurang quantity nanti dipikirinlagi zzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzz
                         //zzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzz
-                        for (int i = 0; i < 3; i++) {
+                        for (int i = 0; i < customerItems.size(); i++) {
                             CustomerFunction.insertHistoryTransaction(cs.getId(), 1, voucher.getId());
                             System.out.println("masok 1");
                         }
@@ -286,11 +315,11 @@ public class Pembayaran extends JFrame implements ActionListener, MouseListener 
                         ArrayList<Transaction> transreverse = new ArrayList();
 
                         //reverse arraylist untuk ambil transaksi terakhir
-                        for (int i = 3; i > 0; i--) {
+                        for (int i = customerItems.size(); i > 0; i--) {
                             transreverse.add(trans.get(i - 1));
                         }
-                        for (int j = 0; j < 3; j++) {
-                            CustomerFunction.insertDetailHistoryTransaction(transreverse.get(j).getId(), items.get(j).getId(), qty.get(j));
+                        for (int j = 0; j < customerItems.size(); j++) {
+                            CustomerFunction.insertDetailHistoryTransaction(transreverse.get(j).getId(), customerItems.get(j).getId(), qty.get(j));
                         }
 
                         JOptionPane.showMessageDialog(null, "<html>Order successful<br>Your order is being processed ^-^</html>", "Payment", JOptionPane.INFORMATION_MESSAGE);
@@ -303,41 +332,36 @@ public class Pembayaran extends JFrame implements ActionListener, MouseListener 
                 JOptionPane.showMessageDialog(null, "Insufficient balance", "Payment", JOptionPane.ERROR_MESSAGE);
                 new MainMenuCustomer();
             }
-            //Cek saldo
-            //Konfirmasi passsword
-            //JOptionPane berhasil
-            //ke status pesanan
-            //jika selesai add ke riwayat pembelian
         }
     }
 
     @Override
     public void mouseClicked(MouseEvent me) {
         lDiskon.setText("- " + String.valueOf(voucher.getDiscount()));
-        textTotal.setText("Total   :        " + (int) (totalPrice - voucher.getDiscount()));
+        textTotal.setText("Total   :        " + (int) (totalPrice - voucher.getDiscount() - (totalPrice - discount)));
     }
 
     @Override
     public void mousePressed(MouseEvent me) {
         lDiskon.setText("- " + String.valueOf(voucher.getDiscount()));
-        textTotal.setText("Total   :        " + (int) (totalPrice - voucher.getDiscount()));
+        textTotal.setText("Total   :        " + (int) (totalPrice - voucher.getDiscount() - (totalPrice - discount)));
     }
 
     @Override
     public void mouseReleased(MouseEvent me) {
         lDiskon.setText("- " + String.valueOf(voucher.getDiscount()));
-        textTotal.setText("Total   :        " + (int) (totalPrice - voucher.getDiscount()));
+        textTotal.setText("Total   :        " + (int) (totalPrice - voucher.getDiscount() - (totalPrice - discount)));
     }
 
     @Override
     public void mouseEntered(MouseEvent me) {
         lDiskon.setText("- " + String.valueOf(voucher.getDiscount()));
-        textTotal.setText("Total   :        " + (int) (totalPrice - voucher.getDiscount()));
+        textTotal.setText("Total   :        " + (int) (totalPrice - voucher.getDiscount() - (totalPrice - discount)));
     }
 
     @Override
     public void mouseExited(MouseEvent me) {
         lDiskon.setText("- " + String.valueOf(voucher.getDiscount()));
-        textTotal.setText("Total   :        " + (int) (totalPrice - voucher.getDiscount()));
+        textTotal.setText("Total   :        " + (int) (totalPrice - voucher.getDiscount() - (totalPrice - discount)));
     }
 }
