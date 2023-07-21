@@ -20,10 +20,10 @@ public class EditVoucher extends JFrame implements ActionListener {
 
     public EditVoucher() {
         setTitle("Edit Voucher (Super Admin)");
-        setSize(400, 300);
+        setSize(650, 950); 
         setDefaultCloseOperation(EXIT_ON_CLOSE);
         Container c = getContentPane();
-        c.setLayout(new GridLayout(8, 2));
+        c.setLayout(null); 
 
         JLabel lblId = new JLabel("Voucher ID:");
         tfId = new JTextField();
@@ -39,7 +39,24 @@ public class EditVoucher extends JFrame implements ActionListener {
         btnEdit = new JButton("Edit");
         btnAddNew = new JButton("Add New");
 
-        lblStatus = new JLabel("");
+        lblStatus = new JLabel();
+
+        lblId.setBounds(20, 20, 100, 30);
+        tfId.setBounds(230, 20, 200, 30);
+        lblName.setBounds(20, 100, 120, 30);
+        tfName.setBounds(230, 100, 200, 30);
+        lblDesc.setBounds(20, 180, 150, 30);
+        tfDesc.setBounds(230, 180, 200, 30);
+        lblDiscount.setBounds(20, 240, 150, 30);
+        tfDiscount.setBounds(230, 240, 200, 30);
+        lblCondition.setBounds(20, 320, 150, 30);
+        tfCondition.setBounds(230, 320, 200, 30);
+        btnEdit.setBounds(20, 460, 150, 40);
+        btnAddNew.setBounds(280, 460, 150, 40);
+        lblStatus.setBounds(20, 560, 400, 30);
+
+        btnEdit.addActionListener(this);
+        btnAddNew.addActionListener(this);
 
         c.add(lblId);
         c.add(tfId);
@@ -55,8 +72,25 @@ public class EditVoucher extends JFrame implements ActionListener {
         c.add(btnAddNew);
         c.add(lblStatus);
 
-        btnEdit.addActionListener(this);
-        btnAddNew.addActionListener(this);
+        JButton backButton = new JButton("Back");
+        backButton.setFont(new Font("Arial", Font.BOLD, 16));
+        backButton.setBounds(20, 770, 150, 40);
+        c.add(backButton);
+        backButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                dispose(); 
+                new MainMenuAdmin(); 
+            }
+        });
+
+        JLabel footer = new JLabel("Kofi By MJME | Whatsapp CS Kofi : 0817-1717-1717");
+        footer.setFont(new Font("Arial", Font.BOLD, 15));
+        footer.setForeground(Color.white);
+        footer.setBackground(Color.DARK_GRAY);
+        footer.setOpaque(true);
+        footer.setBounds(0, 720, 650, 40); 
+        c.add(footer);
 
         setVisible(true);
     }
