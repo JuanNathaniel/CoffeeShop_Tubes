@@ -71,9 +71,9 @@ public class EditVoucher extends JFrame implements ActionListener {
             boolean success = VoucherFunction.updateVoucher(id, name, desc, discount, condition);
 
             if (success) {
-                lblStatus.setText("Voucher updated successfully!");
+                lblStatus.setText("Voucher berhasil diupdate!");
             } else {
-                lblStatus.setText("Error while updating the voucher!");
+                lblStatus.setText("Error saat mengupdate voucher!");
             }
         } else if (e.getSource() == btnAddNew) {
             int id = Integer.parseInt(tfId.getText());
@@ -85,11 +85,10 @@ public class EditVoucher extends JFrame implements ActionListener {
             boolean success = VoucherFunction.insertVoucher(id, name, desc, discount, condition);
 
             if (success) {
-                lblStatus.setText("New voucher added successfully!");
+                lblStatus.setText("Voucher baru berhasil ditambahkan!");
             } else {
-                lblStatus.setText("Error while adding the voucher!");
+                lblStatus.setText("Error saat menambahkan voucher!");
             }
-            lblStatus.setText("New voucher added successfully!");
         }
     }
 
