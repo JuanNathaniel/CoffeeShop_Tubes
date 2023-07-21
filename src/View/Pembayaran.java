@@ -61,9 +61,11 @@ public class Pembayaran extends JFrame implements ActionListener, MouseListener 
     int discount;
     //
     ArrayList<Item> customerItems = new ArrayList();
+    int idStore;
 
-    public Pembayaran(ArrayList<Item> custItems) {
+    public Pembayaran(int idStoree, ArrayList<Item> custItems) {
 
+        this.idStore = idStoree;
         this.customerItems = custItems;
         voucher.setDiscount(0);
         qty = new ArrayList();
@@ -289,11 +291,6 @@ public class Pembayaran extends JFrame implements ActionListener, MouseListener 
         this.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
     }
 
-    public static void main(String[] args) {
-        ArrayList<Item> item = new ArrayList();
-        new Pembayaran(item);
-    }
-
     @Override
     public void actionPerformed(ActionEvent ae) {
         if (ae.getSource() == pay) {
@@ -322,6 +319,8 @@ public class Pembayaran extends JFrame implements ActionListener, MouseListener 
                             CustomerFunction.insertDetailHistoryTransaction(transreverse.get(j).getId(), customerItems.get(j).getId(), qty.get(j));
                         }
 
+                        CustomerFunction.updateSaldo(cs, cs.getSaldo() - totalBayar);
+                        StoreFunction.updateIncome(idStore, totalBayar);
                         JOptionPane.showMessageDialog(null, "<html>Order successful<br>Your order is being processed ^-^</html>", "Payment", JOptionPane.INFORMATION_MESSAGE);
                         this.dispose();
                         new MainMenuCustomer();

@@ -120,7 +120,7 @@ public class MenuOrder extends JFrame implements ActionListener {
             public void actionPerformed(ActionEvent ae) {
                 if (!customerItems.isEmpty()) {
                     frame.dispose();
-                    new Pembayaran(customerItems);
+                    new Pembayaran(idStore, customerItems);
                     //proceedToPayment();
                 }else{
                     JOptionPane.showMessageDialog(null, "Insert item first!", "MenuOrder", JOptionPane.ERROR_MESSAGE);

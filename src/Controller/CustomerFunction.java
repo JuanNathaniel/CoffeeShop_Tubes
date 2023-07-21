@@ -134,7 +134,6 @@ public class CustomerFunction {
         }
 
         if (count > 0) {
-            System.out.println("aha");
             return false;
         } else {
             String query = "Insert INTO customer (username,password,email,address,nohp, member, saldo) VALUES(?,?,?,?,?,?,?)";
@@ -227,4 +226,18 @@ public class CustomerFunction {
         }
     }
 
+    // UPDATE
+    public static boolean updateSaldo(Customer cust, int amount) {
+        conn.connect();
+        String query = "UPDATE customer SET saldo='" + (double)amount + "', "
+                + "WHEREemail='" + cust.getEmail() + "'";
+        try {
+            Statement stmt = conn.con.createStatement();
+            stmt.executeUpdate(query);
+            return (true);
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return (false);
+        }
+    }
 }

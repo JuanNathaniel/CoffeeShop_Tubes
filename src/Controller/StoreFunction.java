@@ -3,23 +3,25 @@ package Controller;
 import Model.Item;
 import Model.Store;
 import Model.Voucher;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 
 public class StoreFunction {
+
     static DatabaseHandler conn = new DatabaseHandler();
-    
+
     //get all stores
-    public static ArrayList<Store> getStores(){
+    public static ArrayList<Store> getStores() {
         conn.connect();
         String query = "SELECT * FROM store";
         ArrayList<Store> stores = new ArrayList<Store>();
         try {
             Statement stmt = conn.con.createStatement();
             ResultSet rs = stmt.executeQuery(query);
-            while (rs.next()){
+            while (rs.next()) {
                 Store temp = new Store();
                 temp.setId(rs.getInt("id"));
                 temp.setIdDetailTransaction(rs.getInt("idDetailTransaction"));
@@ -56,15 +58,15 @@ public class StoreFunction {
 
         return stre;
     }
-    
-    public static ArrayList<Item> getItem(){
+
+    public static ArrayList<Item> getItem() {
         conn.connect();
         String query = "SELECT * FROM item";
         ArrayList<Item> items = new ArrayList<Item>();
         try {
             Statement stmt = conn.con.createStatement();
             ResultSet rs = stmt.executeQuery(query);
-            while (rs.next()){
+            while (rs.next()) {
                 Item temp = new Item();
                 temp.setId(rs.getInt("id"));
                 temp.setName(rs.getString("name"));
@@ -78,14 +80,14 @@ public class StoreFunction {
         return items;
     }
 
-    public static Item getItemById(int id){
+    public static Item getItemById(int id) {
         conn.connect();
         String query = "SELECT * FROM item WHERE id=" + id;
         Item item = new Item();
         try {
             Statement stmt = conn.con.createStatement();
             ResultSet rs = stmt.executeQuery(query);
-            while (rs.next()){
+            while (rs.next()) {
                 item.setId(rs.getInt("id"));
                 item.setName(rs.getString("name"));
                 item.setDesc(rs.getString("desc"));
@@ -97,15 +99,15 @@ public class StoreFunction {
         }
         return null;
     }
-    
-    public static ArrayList<Item> getAvailItem(int idStore){
+
+    public static ArrayList<Item> getAvailItem(int idStore) {
         conn.connect();
         String query = "SELECT * FROM item JOIN detailitem ON item.id = detailitem.idItem WHERE detailitem.idStore = '" + idStore + "' AND detailitem.available = 'AVAILABLE';";
         ArrayList<Item> items = new ArrayList<Item>();
         try {
             Statement stmt = conn.con.createStatement();
             ResultSet rs = stmt.executeQuery(query);
-            while (rs.next()){
+            while (rs.next()) {
                 Item temp = new Item();
                 temp.setId(rs.getInt("id"));
                 temp.setName(rs.getString("name"));
@@ -118,15 +120,15 @@ public class StoreFunction {
         }
         return items;
     }
-    
-    public static ArrayList<Voucher> getVoucher(){
+
+    public static ArrayList<Voucher> getVoucher() {
         conn.connect();
         String query = "SELECT * FROM voucher";
         ArrayList<Voucher> vouchers = new ArrayList<Voucher>();
         try {
             Statement stmt = conn.con.createStatement();
             ResultSet rs = stmt.executeQuery(query);
-            while (rs.next()){
+            while (rs.next()) {
                 Voucher temp = new Voucher();
                 temp.setId(rs.getInt("id"));
                 temp.setName(rs.getString("name"));
@@ -139,5 +141,20 @@ public class StoreFunction {
             e.printStackTrace();
         }
         return vouchers;
+    }
+
+    // UPDATE
+    public static boolean updateIncome(int idStore, int amount) {
+        conn.connect();
+        String query = "UPDATE store SET income='" + (double)amount + "', "
+                + "WHERE ID='" + idStore + "'";
+        try {
+            Statement stmt = conn.con.createStatement();
+            stmt.executeUpdate(query);
+            return (true);
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return (false);
+        }
     }
 }
