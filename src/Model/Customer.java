@@ -5,6 +5,10 @@
  */
 package Model;
 
+import Controller.StoreFunction;
+import java.util.ArrayList;
+import javax.swing.JOptionPane;
+
 /**
  *
  * @author CoffeeShop
@@ -78,7 +82,12 @@ public class Customer extends User implements InterfaceUserFunction {
     }
 
     @Override
-    public void viewVoucher() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public StringBuilder viewVoucher() {
+        ArrayList <Voucher> listVoucher = StoreFunction.getVoucher();
+        StringBuilder vouchers= new StringBuilder();
+            for (Voucher voucher : listVoucher) {
+                vouchers.append(voucher.getName()).append(" | Discount Rp. ").append(voucher.getDiscount()).append("\n");
+            }
+            return vouchers;
     }
 }

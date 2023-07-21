@@ -10,5 +10,5 @@ package Model;
  * @author CoffeeShop
  */
 public interface InterfaceUserFunction {
-    void viewVoucher();
+    StringBuilder viewVoucher();
 }

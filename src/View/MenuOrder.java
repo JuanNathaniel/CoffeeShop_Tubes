@@ -46,7 +46,7 @@ public class MenuOrder extends JFrame implements ActionListener {
             @Override
             public void actionPerformed(ActionEvent ae) {
                 frame.setVisible(false);
-                new LandingPage();
+                new MainMenuCustomer();
             }
         });
 

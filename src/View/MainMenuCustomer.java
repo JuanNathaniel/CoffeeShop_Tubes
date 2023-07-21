@@ -6,6 +6,7 @@
 package View;
 
 import static Controller.CustomerFunction.getCustomer;
+import Controller.GlobalFunction;
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
@@ -18,6 +19,7 @@ import javax.swing.JPanel;
 import Model.Customer;
 import Model.SingletonUserManager;
 import javax.swing.JDialog;
+import javax.swing.JOptionPane;
 
 /**
  *
@@ -28,6 +30,7 @@ import javax.swing.JDialog;
 public class MainMenuCustomer extends JFrame {
 
     public MainMenuCustomer() {
+
         this.setTitle("Main Menu Customer");
         this.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
         JFrame frame = this;
@@ -83,6 +86,19 @@ public class MainMenuCustomer extends JFrame {
             }
         });
         panel.add(store);
+        
+         //View voucher
+        JButton viewVoucher = new JButton("Voucher");
+        viewVoucher.setFont(new Font("Arial", Font.PLAIN, 20));
+        viewVoucher.setBounds(280, 270, 150, 70);
+        // Button diklik, pindah page ke pilihstorepage
+        viewVoucher.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                JOptionPane.showMessageDialog(frame, "You have voucher:\n" + cs.viewVoucher());
+            }
+        });
+        panel.add(viewVoucher);
 
         //Footer
         JLabel footer = new JLabel("                         Kofi By MJME             Whatsapp CS Kofi : 0817-1717-1717");

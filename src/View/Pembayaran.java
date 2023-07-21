@@ -323,6 +323,7 @@ public class Pembayaran extends JFrame implements ActionListener, MouseListener 
                         }
 
                         JOptionPane.showMessageDialog(null, "<html>Order successful<br>Your order is being processed ^-^</html>", "Payment", JOptionPane.INFORMATION_MESSAGE);
+                        this.dispose();
                         new MainMenuCustomer();
                     } else {
                         JOptionPane.showMessageDialog(null, "Incorrect Password", "Payment", JOptionPane.ERROR_MESSAGE);

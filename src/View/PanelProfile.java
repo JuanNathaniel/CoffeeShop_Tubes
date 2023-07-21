@@ -21,9 +21,11 @@ import javax.swing.JPanel;
  *
  * @author Juan Nathaniel
  */
-public class PanelProfile extends JFrame {
+public class PanelProfile extends JFrame implements ActionListener {
 
     JFrame frame = this;
+    JButton button2;
+
     public PanelProfile() {
         this.setTitle("Panel Profile");
 
@@ -75,7 +77,7 @@ public class PanelProfile extends JFrame {
                 if (cs.getMember() == EnumMember.ISMEMBER) {
                     new JoinMembershipCustomer();
                     //JOptionPane.showMessageDialog(null, "<html>You are already membership<br>Thankyou ^_^</html>", "Membership", JOptionPane.INFORMATION_MESSAGE);
-                }else{
+                } else {
                     frame.setVisible(false);
                     new JoinMembershipCustomer();
                 }
@@ -95,16 +97,12 @@ public class PanelProfile extends JFrame {
         });
         panel.add(button1);
 
-        JButton button2 = new JButton("Button2");
+        button2 = new JButton("Logout");
         button2.setFont(new Font("Arial", Font.PLAIN, 15));
-        button2.setBounds(20, 380, 300, 50);
+        button2.setBounds(20, 780, 300, 50);
         // 
-        button2.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                //fungsi disini
-            }
-        });
+        button2.addActionListener(this);
+        
         panel.add(button2);
 
         //Footer
@@ -125,7 +123,14 @@ public class PanelProfile extends JFrame {
         this.setLocationRelativeTo(null);
         this.setVisible(true);
     }
-//    public static void main(String[] args) {
-//        new PanelProfile();
-//    }
+
+    @Override
+    public void actionPerformed(ActionEvent ae) {
+        if (ae.getSource() == button2) {
+            System.out.println("kok gamasuk2");
+            SingletonUserManager.getInstance().setUser(null);
+            new LandingPage();
+            frame.dispose();
+        }
+    }
 }

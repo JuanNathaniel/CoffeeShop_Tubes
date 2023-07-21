@@ -30,9 +30,4 @@ public class SingletonUserManager {
     public void setUser(User user) {
         this.user = user;
     }
-
-    public void setUser(Item menu) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-    
 }

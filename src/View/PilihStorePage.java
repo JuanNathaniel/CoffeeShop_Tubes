@@ -14,9 +14,12 @@ import javax.swing.JPanel;
 import Model.Store;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
+import javax.swing.JDialog;
 
 public class PilihStorePage extends JFrame {
+
     int storeId = -1;
+
     public PilihStorePage() {
         this.setTitle("Pilih Lokasi Store");
 
@@ -27,7 +30,7 @@ public class PilihStorePage extends JFrame {
         //
 
         ArrayList<Store> stores = Controller.StoreFunction.getStores();
-        
+
         for (int i = 0; i < stores.size(); i++) {
             JLabel namaCabang = new JLabel("<html><h1>" + stores.get(i).getCabang() + "</h1>" + stores.get(i).getDeskripsi() + "</html>");
             namaCabang.setFont(new Font("Arial", Font.PLAIN, 17));
@@ -38,7 +41,7 @@ public class PilihStorePage extends JFrame {
             JButton pilihCabang = new JButton("Pilih Cabang Ini");
             pilihCabang.setFont(new Font("Arial", Font.PLAIN, 14));
             pilihCabang.setBounds(450, 90 * i + 20, 150, 50);
-            
+
             pilihCabang.addActionListener(new ActionListener() {
                 public void actionPerformed(ActionEvent e) {
                     storeId = Integer.parseInt(idCabang.getText() + 1);
@@ -69,11 +72,14 @@ public class PilihStorePage extends JFrame {
         this.setLocationRelativeTo(null);
         this.setVisible(true);
         this.addWindowListener(new WindowAdapter() {
-            public void windowClosed(WindowEvent e){
+            public void windowClosed(WindowEvent e) {
+                frame.dispose();
                 new MenuOrder(storeId);
             }
         });
+        this.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
     }
+
     public static void main(String[] args) {
         new PilihStorePage();
     }

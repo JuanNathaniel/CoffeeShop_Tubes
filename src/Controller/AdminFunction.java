@@ -60,7 +60,6 @@ public class AdminFunction {
             
             
             Item menu = new Item(name, deskripsi, harga, EnumCheckItem.AVAILABLE);
-            SingletonUserManager.getInstance().setUser(menu);
 
             return (true);
         } catch (SQLException e) {

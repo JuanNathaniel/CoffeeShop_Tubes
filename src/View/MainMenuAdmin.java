@@ -5,6 +5,9 @@
  */
 package View;
 
+import Model.Admin;
+import Model.Customer;
+import Model.SingletonUserManager;
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
@@ -12,11 +15,15 @@ import java.awt.event.ActionListener;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
 public class MainMenuAdmin extends JFrame {
 
     public MainMenuAdmin() {
+        
+        Admin adm = (Admin) SingletonUserManager.getInstance().getUser();
+        
         this.setTitle("Main Menu Admin");
         this.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         JFrame frame = this;
@@ -98,7 +105,21 @@ public class MainMenuAdmin extends JFrame {
             }
         });
         panel.add(rekapPenjualanButton);
-
+   
+         //View voucher
+        JButton viewVoucher = new JButton("Voucher");
+        viewVoucher.setFont(new Font("Arial", Font.PLAIN, 20));
+        viewVoucher.setBounds(280, 20, 150, 70);
+        // Button diklik, pindah page ke pilihstorepage
+        viewVoucher.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                JOptionPane.showMessageDialog(frame, "List voucher:\n" + adm.viewVoucher());
+            }
+        });
+        panel.add(viewVoucher);
+        
+        panel.add(viewVoucher);
         JLabel footer = new JLabel("Kofi By MJME | Whatsapp CS Kofi : 0817-1717-1717");
         footer.setFont(new Font("Arial", Font.BOLD, 15));
         footer.setForeground(Color.white);

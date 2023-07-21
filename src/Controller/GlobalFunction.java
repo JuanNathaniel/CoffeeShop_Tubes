@@ -23,12 +23,13 @@ import javax.swing.JOptionPane;
  * INI FUNCTION YANG ADMIN SAMA CUSTOMER BISA MAKE
  */
 public class GlobalFunction {
+
     //Function Login
     public static User checkEmailPassLogin(String email, String pass) {
         conn.connect();
         try {
             Statement stmt = conn.con.createStatement();
-            String query = "SELECT * FROM customer WHERE email='" + email + "' AND password='" + pass +"'";
+            String query = "SELECT * FROM customer WHERE email='" + email + "' AND password='" + pass + "'";
             String nameQuery = "custo";
             for (int i = 1; i <= 2; i++) {
                 ResultSet rs = stmt.executeQuery(query);
@@ -43,7 +44,7 @@ public class GlobalFunction {
                         //
                         SingletonUserManager.getInstance().setUser(adm);
                         return (adm);
-                    } else if (nameQuery.equals("custo")) {
+                    }else if (nameQuery.equals("custo")) {
                         Customer cust = new Customer();
                         cust.setId(rs.getInt("id"));
                         cust.setUsername(rs.getString("username"));
@@ -59,7 +60,7 @@ public class GlobalFunction {
                     }
                 }
                 nameQuery = "admi";
-                query = "SELECT * FROM admin WHERE email='" + email + "' AND password='" + pass +"'";
+                query = "SELECT * FROM admin WHERE email='" + email + "' AND password='" + pass + "'";
             }
         } catch (SQLException e) {
             e.printStackTrace();
@@ -71,14 +72,15 @@ public class GlobalFunction {
                 JOptionPane.ERROR_MESSAGE);
         return null;
     }
-    public static ArrayList<Transaction> getHistoryTransaction(){
+
+    public static ArrayList<Transaction> getHistoryTransaction() {
         conn.connect();
         String query = "SELECT * FROM transaction";
         ArrayList<Transaction> trans = new ArrayList<Transaction>();
         try {
             Statement stmt = conn.con.createStatement();
             ResultSet rs = stmt.executeQuery(query);
-            while (rs.next()){
+            while (rs.next()) {
                 Transaction temp = new Transaction();
                 temp.setId(rs.getInt("id"));
                 temp.setIdCustomer(rs.getInt("idCustomer"));
