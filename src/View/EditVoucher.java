@@ -4,16 +4,20 @@
  * and open the template in the editor.
  */
 package View;
+
+import Controller.AdminFunction;
+import Controller.VoucherFunction;
 import java.awt.*;
 import java.awt.event.*;
 import javax.swing.*;
 import static javax.swing.JFrame.EXIT_ON_CLOSE;
 
 public class EditVoucher extends JFrame implements ActionListener {
+
     private JTextField tfId, tfName, tfDesc, tfDiscount, tfCondition;
     private JButton btnEdit, btnAddNew;
     private JLabel lblStatus;
-    
+
     public EditVoucher() {
         setTitle("Edit Voucher (Super Admin)");
         setSize(400, 300);
@@ -64,17 +68,33 @@ public class EditVoucher extends JFrame implements ActionListener {
             String desc = tfDesc.getText();
             double discount = Double.parseDouble(tfDiscount.getText());
             double condition = Double.parseDouble(tfCondition.getText());
+            boolean success = VoucherFunction.updateVoucher(id, name, desc, discount, condition);
 
-            
-            lblStatus.setText("Voucher updated successfully!");
+            if (success) {
+                lblStatus.setText("Voucher updated successfully!");
+            } else {
+                lblStatus.setText("Error while updating the voucher!");
+            }
         } else if (e.getSource() == btnAddNew) {
+            int id = Integer.parseInt(tfId.getText());
             String name = tfName.getText();
             String desc = tfDesc.getText();
             double discount = Double.parseDouble(tfDiscount.getText());
             double condition = Double.parseDouble(tfCondition.getText());
 
+            boolean success = VoucherFunction.insertVoucher(id, name, desc, discount, condition);
+
+            if (success) {
+                lblStatus.setText("New voucher added successfully!");
+            } else {
+                lblStatus.setText("Error while adding the voucher!");
+            }
             lblStatus.setText("New voucher added successfully!");
         }
+    }
+
+    public static void main(String[] args) {
+        new EditVoucher();
     }
 
 }
