@@ -56,23 +56,24 @@ public class VoucherFunction {
     }
 
     public static boolean insertVoucher(int id, String name, String desc, double discount, double condition) {
-        conn.connect();
-        try {
-            String query = "INSERT INTO voucher (`id` ,name, `desc`, discount, `condition`) VALUES (?,?, ?, ?, ?)";
-            PreparedStatement statement = conn.con.prepareStatement(query);
-            statement.setInt(1, id);
-            statement.setString(2, name);
-            statement.setString(3, desc);
-            statement.setDouble(4, discount);
-            statement.setDouble(5, condition);
+    conn.connect();
+    try {
+        String query = "INSERT INTO voucher (`id`, `name`, `desc`, `discount`, `condition`) VALUES (?, ?, ?, ?, ?)";
+        PreparedStatement statement = conn.con.prepareStatement(query);
+        statement.setInt(1, id);
+        statement.setString(2, name);
+        statement.setString(3, desc);
+        statement.setDouble(4, discount);
+        statement.setDouble(5, condition);
 
-            statement.executeUpdate();
-            return (true);
-        } catch (SQLException e) {
-            e.printStackTrace();
-            return (false);
-        }
+        statement.executeUpdate();
+        return true;
+    } catch (SQLException e) {
+        e.printStackTrace();
+        return false;
     }
+}
+
 
     public static boolean updateVoucher(int id, String name, String desc, double discount, double condition) {
         DatabaseHandler conn = new DatabaseHandler();
