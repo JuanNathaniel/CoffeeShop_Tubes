@@ -191,18 +191,17 @@ public class CustomerFunction {
     }
 
     // INSERT
-    public static boolean insertHistoryTransaction(int idCust, int idStore, int idItem, int idVoucher) {
+    public static boolean insertHistoryTransaction(int idCust, int idStore,int idVoucher) {
         conn.connect();
-        String query = "INSERT INTO transaction (idCustomer, idStore, idItem, idVoucher, transactionDate) VALUES(?,?,?,?,?)";
+        String query = "INSERT INTO transaction (idCustomer, idStore, idVoucher, transactionDate) VALUES(?,?,?,?)";
         Date date = Date.valueOf(LocalDate.now());
         //java.sql.Date sqlDate = new java.sql.Date(utilDate.getTime());
         try {
             PreparedStatement stmt = conn.con.prepareStatement(query);
             stmt.setInt(1, idCust);
             stmt.setInt(2, idStore);
-            stmt.setInt(3, idItem);
-            stmt.setInt(4, idVoucher);
-            stmt.setDate(5, date);
+            stmt.setInt(3, idVoucher);
+            stmt.setDate(4, date);
             stmt.executeUpdate();
             return (true);
         } catch (SQLException e) {
@@ -212,13 +211,14 @@ public class CustomerFunction {
     }
     
     //insert detail history transaction
-    public static boolean insertDetailHistoryTransaction(int idTransaction, int itemQuantity) {
+    public static boolean insertDetailHistoryTransaction(int idTransaction,int idItem, int itemQuantity) {
         conn.connect();
-        String query = "INSERT INTO detailtransaction (idTransaction, itemQuantity) VALUES(?,?)";;
+        String query = "INSERT INTO detailtransaction (idTransaction,idItem, itemQuantity) VALUES(?,?,?)";;
         try {
             PreparedStatement stmt = conn.con.prepareStatement(query);
             stmt.setInt(1, idTransaction);
-            stmt.setInt(2, itemQuantity);
+            stmt.setInt(2, idItem);
+            stmt.setInt(3, itemQuantity);
             stmt.executeUpdate();
             return (true);
         } catch (SQLException e) {

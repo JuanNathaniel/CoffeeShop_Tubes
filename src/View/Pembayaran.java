@@ -170,10 +170,10 @@ public class Pembayaran extends JFrame implements ActionListener, MouseListener 
         cbVoucher = new JButton("Pilih Voucher");
         cbVoucher.setBounds(150, spaceAntarText + 80, 250, 30);
         cbVoucher.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e){
+            public void actionPerformed(ActionEvent e) {
                 ViewVoucherPage temp = new ViewVoucherPage(Integer.parseInt(totalPriceLabel.getText()));
                 temp.addWindowListener(new WindowAdapter() {
-                    public void windowClosed(WindowEvent e){
+                    public void windowClosed(WindowEvent e) {
                         textVoucher.setText(temp.voucherID);
                         voucher = VoucherFunction.getVoucherByID(textVoucher.getText());
                         textVoucher.setText(voucher.getName());
@@ -279,18 +279,18 @@ public class Pembayaran extends JFrame implements ActionListener, MouseListener 
                         //looping sebanyak berapa pesanan yang dibuat, keknya kurang quantity nanti dipikirinlagi zzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzz
                         //zzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzz
                         for (int i = 0; i < 3; i++) {
-                            CustomerFunction.insertHistoryTransaction(cs.getId(), 1, items.get(i).getId(), voucher.getId());
+                            CustomerFunction.insertHistoryTransaction(cs.getId(), 1, voucher.getId());
                             System.out.println("masok 1");
                         }
                         ArrayList<Transaction> trans = GlobalFunction.getHistoryTransaction();
                         ArrayList<Transaction> transreverse = new ArrayList();
-                        
+
                         //reverse arraylist untuk ambil transaksi terakhir
                         for (int i = 3; i > 0; i--) {
                             transreverse.add(trans.get(i - 1));
                         }
                         for (int j = 0; j < 3; j++) {
-                            CustomerFunction.insertDetailHistoryTransaction(transreverse.get(j).getId(), qty.get(j));
+                            CustomerFunction.insertDetailHistoryTransaction(transreverse.get(j).getId(), items.get(j).getId(), qty.get(j));
                         }
 
                         JOptionPane.showMessageDialog(null, "<html>Order successful<br>Your order is being processed ^-^</html>", "Payment", JOptionPane.INFORMATION_MESSAGE);

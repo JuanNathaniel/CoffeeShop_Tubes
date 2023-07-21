@@ -83,7 +83,6 @@ public class GlobalFunction {
                 temp.setId(rs.getInt("id"));
                 temp.setIdCustomer(rs.getInt("idCustomer"));
                 temp.setIdStore(rs.getInt("idStore"));
-                temp.setIdItem(rs.getInt("idItem"));
                 temp.setIdVoucher(rs.getInt("idVoucher"));
                 temp.setDate(rs.getDate("transactionDate"));
                 trans.add(temp);

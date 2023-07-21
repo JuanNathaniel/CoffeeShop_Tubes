@@ -61,7 +61,6 @@ public class ViewVoucherPage extends JFrame{
             @Override
             public void actionPerformed(ActionEvent e){
                 frame.dispose();
-                new MainMenuCustomer();
             }
         });
         panel.add(back);
