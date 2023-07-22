@@ -62,7 +62,7 @@ public class Pembayaran extends JFrame implements ActionListener, MouseListener 
     //
     ArrayList<Item> customerItems = new ArrayList();
     int idStore;
-
+    ArrayList <Transaction> undoneTransaction = new ArrayList();
     public Pembayaran(int idStoree, ArrayList<Item> custItems) {
 
         this.idStore = idStoree;
@@ -316,9 +316,9 @@ public class Pembayaran extends JFrame implements ActionListener, MouseListener 
                             transreverse.add(trans.get(i - 1));
                         }
                         for (int j = 0; j < customerItems.size(); j++) {
-                            CustomerFunction.insertDetailHistoryTransaction(transreverse.get(j).getId(), customerItems.get(j).getId(), qty.get(j));
+                          CustomerFunction.insertDetailHistoryTransaction(transreverse.get(j).getId(), customerItems.get(j).getId(), qty.get(j));  
                         }
-
+                        
                         CustomerFunction.updateSaldo(cs, cs.getSaldo() - totalBayar);
                         StoreFunction.updateIncome(idStore, totalBayar);
                         JOptionPane.showMessageDialog(null, "<html>Order successful<br>Your order is being processed ^-^</html>", "Payment", JOptionPane.INFORMATION_MESSAGE);

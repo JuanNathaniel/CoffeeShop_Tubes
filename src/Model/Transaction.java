@@ -20,6 +20,8 @@ public class Transaction {
     private Date date;
     private int itemQuantity;
 
+    public Transaction() {
+    }
     public int getId() {
         return id;
     }

@@ -9,11 +9,13 @@ import Model.Admin;
 import Model.Customer;
 import Model.Manager;
 import Model.SingletonUserManager;
+import Model.Transaction;
 import Model.User;
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -61,6 +63,8 @@ public class MainMenuAdmin extends JFrame {
         tabListOrderButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
+                ArrayList <Transaction> newTrans = new ArrayList();
+                new ListOrder(newTrans);
             }
         });
         panel.add(tabListOrderButton);
@@ -127,7 +131,7 @@ public class MainMenuAdmin extends JFrame {
 
         }
 
-        JLabel footer = new JLabel("Kofi By MJME | Whatsapp CS Kofi : 0817-1717-1717");
+        JLabel footer = new JLabel("                         Kofi By MJME             Whatsapp CS Kofi : 0817-1717-1717");
         footer.setFont(new Font("Arial", Font.BOLD, 15));
         footer.setForeground(Color.white);
         footer.setBackground(Color.DARK_GRAY);
