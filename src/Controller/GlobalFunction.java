@@ -9,6 +9,7 @@ import static Controller.CustomerFunction.conn;
 import Model.Customer;
 import Model.Admin;
 import Model.EnumMember;
+import Model.Manager;
 import Model.SingletonUserManager;
 import Model.Transaction;
 import Model.User;
@@ -31,10 +32,20 @@ public class GlobalFunction {
             Statement stmt = conn.con.createStatement();
             String query = "SELECT * FROM customer WHERE email='" + email + "' AND password='" + pass + "'";
             String nameQuery = "custo";
-            for (int i = 1; i <= 2; i++) {
+
+            for (int i = 1; i <= 3; i++) {
+                if (i == 2) {
+                    nameQuery = "admi";
+                    query = "SELECT * FROM admin WHERE email='" + email + "' AND password='" + pass + "'";
+                } else if (i == 3) {
+                    nameQuery = "manage";
+                    query = "SELECT * FROM manager WHERE email='" + email + "' AND password='" + pass + "'";
+                }
+
                 ResultSet rs = stmt.executeQuery(query);
                 while (rs.next()) {
                     if (nameQuery.equals("admi")) {
+                        System.out.println("masok admin");
                         Admin adm = new Admin();
                         adm.setId(rs.getInt("id"));
                         adm.setUsername(rs.getString("username"));
@@ -44,7 +55,8 @@ public class GlobalFunction {
                         //
                         SingletonUserManager.getInstance().setUser(adm);
                         return (adm);
-                    }else if (nameQuery.equals("custo")) {
+                    } else if (nameQuery.equals("custo")) {
+                        System.out.println("masok custme");
                         Customer cust = new Customer();
                         cust.setId(rs.getInt("id"));
                         cust.setUsername(rs.getString("username"));
@@ -57,10 +69,19 @@ public class GlobalFunction {
                         //
                         SingletonUserManager.getInstance().setUser(cust);
                         return (cust);
-                    }
+                    } else if (nameQuery.equals("manage")) {
+                        System.out.println("masok manage");
+                        Manager manager = new Manager();
+                        manager.setId(rs.getInt("id"));
+                        manager.setIdManager(rs.getInt("id"));
+                        manager.setUsername(rs.getString("username"));
+                        manager.setPassword(rs.getString("password"));
+                        manager.setEmail(rs.getString("email"));
+                        SingletonUserManager.getInstance().setUser(manager);
+                        return (manager);
+                    };
                 }
-                nameQuery = "admi";
-                query = "SELECT * FROM admin WHERE email='" + email + "' AND password='" + pass + "'";
+
             }
         } catch (SQLException e) {
             e.printStackTrace();
