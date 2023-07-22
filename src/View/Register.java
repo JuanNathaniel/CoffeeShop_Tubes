@@ -163,16 +163,18 @@ public class Register extends JFrame implements ActionListener {
         } else {
             Boolean cs = CustomerFunction.register(username, password, email, address, noHp);
             if (cs) {
+                this.dispose();
                 JOptionPane.showMessageDialog(this, "Registration successful.", "Success", JOptionPane.INFORMATION_MESSAGE);
+                new MainMenuCustomer();
             } else {
                 JOptionPane.showMessageDialog(this, "Registration failed. Email sudah ada!", "Error", JOptionPane.ERROR_MESSAGE);
             }
         }
 
     }
+
     public static void main(String[] args) {
         new Register();
     }
-    
-    
+
 }

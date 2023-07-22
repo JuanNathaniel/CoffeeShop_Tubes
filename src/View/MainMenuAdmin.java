@@ -128,7 +128,6 @@ public class MainMenuAdmin extends JFrame {
                 }
             });
             panel.add(viewVoucher);
-
         }
 
         JLabel footer = new JLabel("                         Kofi By MJME             Whatsapp CS Kofi : 0817-1717-1717");
