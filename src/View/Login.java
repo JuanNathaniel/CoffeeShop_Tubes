@@ -128,8 +128,7 @@ public class Login extends JFrame implements ActionListener {
             new MainMenuCustomer();
         } else if (resultUser instanceof Manager) {
             this.dispose();
-            JOptionPane.showMessageDialog(null, "MENU MANAGER KEMANA");
-            //MENU MANAGER KEMANA
+            new MainMenuAdmin();
         } else if (resultUser instanceof Admin) {
             this.dispose();
             new MainMenuAdmin();
