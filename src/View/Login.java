@@ -24,6 +24,7 @@ import static Controller.CustomerFunction.getCustomer;
 import Model.Manager;
 import javax.swing.JDialog;
 import javax.swing.JOptionPane;
+
 /**
  *
  * @author CoffeeShop
@@ -33,10 +34,11 @@ public class Login extends JFrame implements ActionListener {
     JTextField inputEmail, inputPass;
     JButton back;
     JFrame frame = this;
+
     public Login() {
         Customer cs = getCustomer("micel@gmail.com");
         this.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
-        this.setTitle("Landing Page"+cs.getMember()+cs.getUsername());
+        this.setTitle("Landing Page" + cs.getMember() + cs.getUsername());
 
         JPanel panel = new JPanel();
         panel.setBounds(0, 0, 650, 950);
@@ -47,12 +49,12 @@ public class Login extends JFrame implements ActionListener {
         back.setFont(new Font("Arial", Font.PLAIN, 13));
         back.setBounds(20, 20, 70, 70);
         panel.add(back);
-        back.addActionListener(new ActionListener(){
+        back.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent ae) {
                 frame.setVisible(false);
                 new LandingPage();
-            }   
+            }
         });
 
         JLabel masuk = new JLabel("Masuk/Login");
@@ -120,16 +122,17 @@ public class Login extends JFrame implements ActionListener {
     public void actionPerformed(ActionEvent e) {
         //Check data input user dengan database
         User resultUser = GlobalFunction.checkEmailPassLogin(String.valueOf(inputEmail.getText()), String.valueOf(inputPass.getText()));
+        System.out.println(resultUser.getClass());
         if (resultUser instanceof Customer) {
             this.dispose();
             new MainMenuCustomer();
-        } else if (resultUser instanceof Admin) {
-            this.dispose();
-            new MainMenuAdmin();
-        }else if (resultUser instanceof Manager) {
+        } else if (resultUser instanceof Manager) {
             this.dispose();
             JOptionPane.showMessageDialog(null, "MENU MANAGER KEMANA");
             //MENU MANAGER KEMANA
+        } else if (resultUser instanceof Admin) {
+            this.dispose();
+            new MainMenuAdmin();
         }
     }
 
