@@ -19,11 +19,14 @@ import Model.Store;
 import java.sql.PreparedStatement;
 import java.util.ArrayList;
 import Model.Voucher;
+import java.sql.Connection;
 import java.sql.Date;
+import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.time.LocalDate;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.JTextArea;
 
 /**
  *
@@ -92,14 +95,14 @@ public class CustomerFunction {
         return cust;
     }
 
-    public static ArrayList<Customer> getCustomersList(){
+    public static ArrayList<Customer> getCustomersList() {
         conn.connect();
         String query = "SELECT * FROM customer";
         ArrayList<Customer> custs = new ArrayList<Customer>();
         try {
             Statement stmt = conn.con.createStatement();
             ResultSet rs = stmt.executeQuery(query);
-            while (rs.next()){
+            while (rs.next()) {
                 Customer temp = new Customer();
                 temp.setId(rs.getInt("id"));
                 temp.setUsername(rs.getString("username"));
@@ -190,7 +193,7 @@ public class CustomerFunction {
     }
 
     // INSERT
-    public static boolean insertHistoryTransaction(int idCust, int idStore,int idVoucher) {
+    public static boolean insertHistoryTransaction(int idCust, int idStore, int idVoucher) {
         conn.connect();
         String query = "INSERT INTO transaction (idCustomer, idStore, idVoucher, transactionDate) VALUES(?,?,?,?)";
         Date date = Date.valueOf(LocalDate.now());
@@ -208,9 +211,9 @@ public class CustomerFunction {
             return (false);
         }
     }
-    
+
     //insert detail history transaction
-    public static boolean insertDetailHistoryTransaction(int idTransaction,int idItem, int itemQuantity) {
+    public static boolean insertDetailHistoryTransaction(int idTransaction, int idItem, int itemQuantity) {
         conn.connect();
         String query = "INSERT INTO detailtransaction (idTransaction,idItem, itemQuantity) VALUES(?,?,?)";;
         try {
@@ -229,7 +232,7 @@ public class CustomerFunction {
     // UPDATE
     public static boolean updateSaldo(Customer cust, int amount) {
         conn.connect();
-        String query = "UPDATE customer SET saldo='" + (double)amount + "', "
+        String query = "UPDATE customer SET saldo='" + (double) amount + "', "
                 + "WHEREemail='" + cust.getEmail() + "'";
         try {
             Statement stmt = conn.con.createStatement();
@@ -238,6 +241,48 @@ public class CustomerFunction {
         } catch (SQLException e) {
             e.printStackTrace();
             return (false);
+        }
+    }
+
+    public static void fetchAndDisplayOrderHistory(JTextArea historyTextArea) {
+        conn.connect();
+
+        String sql = "SELECT dt.id AS orderID, dt.idTransaction, dt.idItem, dt.itemQuantity, "
+                + "t.idCustomer, t.idStore, t.idVoucher, t.transactionDate "
+                + "FROM detailtransaction dt "
+                + "JOIN transaction t ON dt.idTransaction = t.id;";
+
+        try {
+
+            PreparedStatement statement = conn.con.prepareStatement(sql);
+
+            ResultSet resultSet = statement.executeQuery();
+
+            historyTextArea.setText("");
+
+            while (resultSet.next()) {
+                int idTransaction = resultSet.getInt("idTransaction");
+                int idItem = resultSet.getInt("idItem");
+                int itemQuantity = resultSet.getInt("itemQuantity");
+                int idCustomer = resultSet.getInt("idCustomer");
+                int idStore = resultSet.getInt("idStore");
+                int idVoucher = resultSet.getInt("idVoucher");
+                Date transactionDate = resultSet.getDate("transactionDate");
+
+                historyTextArea.append("ID Transaction: " + idTransaction + "\n");
+                historyTextArea.append("ID Item: " + idItem + "\n");
+                historyTextArea.append("Item Quantity: " + itemQuantity + "\n");
+                historyTextArea.append("ID Customer: " + idCustomer + "\n");
+                historyTextArea.append("ID Store: " + idStore + "\n");
+                historyTextArea.append("ID Voucher: " + idVoucher + "\n");
+                historyTextArea.append("Transaction Date: " + transactionDate + "\n");
+                historyTextArea.append("-----------------------\n");
+            }
+
+            resultSet.close();
+            statement.close();
+        } catch (SQLException e) {
+            e.printStackTrace();
         }
     }
 }

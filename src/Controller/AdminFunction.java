@@ -7,6 +7,8 @@ import Model.EnumCheckItem;
 import Model.EnumMember;
 import Model.SingletonUserManager;
 import Model.Transaction;
+import java.sql.Connection;
+import java.sql.DriverManager;
 
 import java.sql.PreparedStatement;
 
@@ -39,26 +41,25 @@ public class AdminFunction {
         String query = "INSERT INTO item (name,desc,price,availability) VALUES(?,?,?,?)";
         String detailQuery = "INSERT INTO detailItem (idItem,availability) VALUES(?,?)";
         try {
-            
+
             PreparedStatement stmt = conn.con.prepareStatement(query);
             stmt.setString(1, name);
             stmt.setString(2, deskripsi);
             stmt.setString(3, harga);
             stmt.executeUpdate();
-            
+
             ResultSet generatedKeys = stmt.getGeneratedKeys();
             int itemId = -1;
             if (generatedKeys.next()) {
                 itemId = generatedKeys.getInt(1);
             }
-            
+
             PreparedStatement detailStmt = conn.con.prepareStatement(detailQuery);
             detailStmt.setInt(1, itemId);
             EnumCheckItem enumIn = EnumCheckItem.AVAILABLE;
             detailStmt.setString(2, enumIn.name());
             detailStmt.executeUpdate();
-            
-            
+
             Item menu = new Item(name, deskripsi, harga, EnumCheckItem.AVAILABLE);
 
             return (true);
@@ -68,14 +69,14 @@ public class AdminFunction {
         }
     }
 
-    public static ArrayList<Transaction> getTransactionsList(){
+    public static ArrayList<Transaction> getTransactionsList() {
         conn.connect();
         String query = "SELECT * FROM transaction";
         ArrayList<Transaction> transactions = new ArrayList<Transaction>();
         try {
             Statement stmt = conn.con.createStatement();
             ResultSet rs = stmt.executeQuery(query);
-            while (rs.next()){
+            while (rs.next()) {
                 Transaction temp = new Transaction();
                 temp.setId(rs.getInt(1));
                 temp.setIdCustomer(rs.getInt(2));
@@ -90,4 +91,29 @@ public class AdminFunction {
         }
         return transactions;
     }
+
+    public static void saveLocationToDatabase(String cabang, String deskripsi, String income) {
+        conn.connect();
+        String sql = "INSERT INTO store (cabang, deskripsi, income) VALUES (?, ?, ?)";
+
+        try {
+            PreparedStatement statement = conn.con.prepareStatement(sql);
+            statement.setString(1, cabang);
+            statement.setString(2, deskripsi);
+            statement.setString(3, income);
+
+            int rowsInserted = statement.executeUpdate();
+
+            if (rowsInserted > 0) {
+                System.out.println("Data berhasil disimpan ke database.");
+            } else {
+                System.out.println("Gagal menyimpan data ke database.");
+            }
+
+            statement.close();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
 }

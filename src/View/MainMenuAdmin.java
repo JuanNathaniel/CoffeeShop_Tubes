@@ -90,6 +90,7 @@ public class MainMenuAdmin extends JFrame {
         tambahStoreButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
+                new TambahLokasi();
             }
         });
         panel.add(tambahStoreButton);
