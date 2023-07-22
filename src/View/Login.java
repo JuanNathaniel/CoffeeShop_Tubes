@@ -21,7 +21,9 @@ import Model.Customer;
 import Model.User;
 import Controller.CustomerFunction;
 import static Controller.CustomerFunction.getCustomer;
+import Model.Manager;
 import javax.swing.JDialog;
+import javax.swing.JOptionPane;
 /**
  *
  * @author CoffeeShop
@@ -119,11 +121,15 @@ public class Login extends JFrame implements ActionListener {
         //Check data input user dengan database
         User resultUser = GlobalFunction.checkEmailPassLogin(String.valueOf(inputEmail.getText()), String.valueOf(inputPass.getText()));
         if (resultUser instanceof Customer) {
-            this.setVisible(false);
+            this.dispose();
             new MainMenuCustomer();
         } else if (resultUser instanceof Admin) {
-            this.setVisible(false);
+            this.dispose();
             new MainMenuAdmin();
+        }else if (resultUser instanceof Manager) {
+            this.dispose();
+            JOptionPane.showMessageDialog(null, "MENU MANAGER KEMANA");
+            //MENU MANAGER KEMANA
         }
     }
 
