@@ -13,7 +13,7 @@ import javax.swing.JOptionPane;
  *
  * @author CoffeeShop
  */
-public class Customer extends User implements InterfaceUserFunction {
+public class Customer extends User{
 
     private int id;
     private String address;

@@ -9,7 +9,7 @@ package Model;
  *
  * @author CoffeeShop
  */
-public abstract class User {
+public abstract class User implements InterfaceUserFunction{
     private int id;
     private String username;
     private String password;

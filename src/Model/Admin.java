@@ -12,7 +12,7 @@ import java.util.ArrayList;
  *
  * @author CoffeeShop
  */
-public class Admin extends User implements InterfaceUserFunction {
+public class Admin extends User{
 
     private int id;
     private int idCabang;
